@@ -23,7 +23,8 @@ RegisterNumber:
 ```
 
 ## Output:
-![simple linear regression model for predicting the marks scored](sam.png)
+"C:\Users\acer\Pictures\Screenshots\Screenshot (36).png"
+"C:\Users\acer\Pictures\Screenshots\Screenshot (37).png"
 
 
 ## Result:
