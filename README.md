@@ -16,23 +16,55 @@ To write a program to predict the marks scored by a student using the simple lin
 ## Program:
 ```
 import numpy as np
-import matplotlib.pyplot as plt 
-X=np.array(eval(input()))
-Y=np.array(eval(input()))
-Xmean=np.mean(X)
-Ymean=np.mean(Y)
-num,den=0,0 #num = numerator, den = denomenator
-for i in range(len(X)):
-    num+=(X[i]-Xmean)*(Y[i]-Ymean)
-    den+=(X[i]-Xmean)**2
-m=num/den
-c=Ymean-m*Xmean
-print(m,c)
-Y_pred=m*X+c
-print(Y_pred)
-plt.scatter(X,Y)
-plt.plot(X,Y_pred,color="red")
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+df = pd.read_csv(r"C:\Users\acer\Downloads\student_scores.csv")
+
+print(df.head(10))
+
+plt.scatter(df['Hours'], df['Scores'])
+plt.xlabel('Hours')
+plt.ylabel('Scores')
+plt.title('Hours vs Scores')
 plt.show()
+
+
+X = df[['Hours']]   
+y = df['Scores']    
+
+X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+lr = LinearRegression()
+lr.fit(X_train, Y_train)
+
+single_pred = lr.predict(X_test.iloc[0].values.reshape(1, 1))
+print("Single Prediction:", single_pred)
+
+plt.scatter(df['Hours'], df['Scores'])
+plt.plot(X_train, lr.predict(X_train), color='red')
+plt.xlabel('Hours')
+plt.ylabel('Scores')
+plt.title('Regression Line')
+plt.show()
+
+print("Coefficient:", lr.coef_)
+print("Intercept:", lr.intercept_)
+
+y_pred = lr.predict(X_test)
+
+mse = mean_squared_error(Y_test, y_pred)
+rmse = np.sqrt(mse)
+mae = mean_absolute_error(Y_test, y_pred)
+r2 = r2_score(Y_test, y_pred)
+
+print("MSE:", mse)
+print("RMSE:", rmse)
+print("MAE:", mae)
+print("R2 Score:", r2)
 ```
 
 ## Output:
